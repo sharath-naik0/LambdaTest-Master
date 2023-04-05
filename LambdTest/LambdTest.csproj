@@ -56,11 +56,15 @@
     <Reference Include="WebDriver, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Selenium.WebDriver.4.8.2\lib\net48\WebDriver.dll</HintPath>
     </Reference>
+    <Reference Include="WebDriver.Support, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selenium.Support.4.8.2\lib\net48\WebDriver.Support.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Test_scenario_2.cs" />
     <Compile Include="Test_scenario_1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test_scenario_3.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

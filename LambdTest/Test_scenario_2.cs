@@ -32,7 +32,7 @@ namespace Test_scenario_2
         }
 
         [Test]
-        public void TestScenario2()
+        public void Slider_moving()
         {
             driver.FindElement(By.LinkText("Drag & Drop Sliders")).Click();
 
