@@ -44,7 +44,7 @@ namespace Test_scenario_2
             int targetValue = 95;
             int distance = ((targetValue - sliderValue) * sliderWidth) / 100;
 
-            // Move the slider step by step until it reaches the target value
+          
             Actions sliderAction = new Actions(driver);
             sliderAction.ClickAndHold(slider)
                 .MoveByOffset(distance / 25, 0).Pause(TimeSpan.FromMilliseconds(100))
