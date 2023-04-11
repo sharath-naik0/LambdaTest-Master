@@ -1,39 +1,45 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using System.IO;
-using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
 
+
 namespace Test_scenario_3
 {
-   
-        [TestFixture]
-        public class Test_scenario_3
+
+    [TestFixture("chrome")]
+    [TestFixture("firefox")]
+    public class Test_scenario_3
+    {
+        private IWebDriver driver;
+        private string browser;
+
+        public Test_scenario_3(string browser)
         {
-            private IWebDriver driver;
+            this.browser = browser;
+        }
 
         [SetUp]
-        public void SetUp()
+        public void Setup()
         {
-            string path = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-
-            driver = new ChromeDriver(path + @"\drivers\");
+            switch (browser)
+            {
+                case "chrome":
+                    driver = new ChromeDriver();
+                    break;
+                case "firefox":
+                    driver = new FirefoxDriver();
+                    break;
+                default:
+                    driver = new ChromeDriver();
+                    break;
+            }
             driver.Manage().Window.Maximize();
-
             driver.Navigate().GoToUrl("https://www.lambdatest.com/selenium-playground");
             driver.FindElement(By.LinkText("Input Form Submit")).Click();
-
         }
-        
-
-
 
         [Test]
         public void A1_Submit_without_filling()
@@ -42,19 +48,11 @@ namespace Test_scenario_3
 
             IWebElement error = driver.FindElement(By.CssSelector("input:invalid"));
             Assert.AreEqual("Please fill in the fields", error.Text);
-           
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            driver.Quit();
         }
 
         [Test]
         public void A2_Submit_With_filled_data()
-        { 
-
+        {
             driver.FindElement(By.Id("name")).SendKeys("Levani Gamezardashvili ");
             driver.FindElement(By.Id("inputEmail4")).SendKeys("Levani.gmz.14@gmail.com");
             driver.FindElement(By.Id("inputPassword4")).SendKeys("Aa89586858");
@@ -71,32 +69,24 @@ namespace Test_scenario_3
             select.SelectByText("United States");
 
 
+            Thread.Sleep(1400);
+
+
+
+            IWebElement elementB = driver.FindElement(By.CssSelector("#seleniumform > div.text-right.mt-20 > button"));
+            elementB.Click();
+
+
             Thread.Sleep(1000);
 
-
-             IWebElement element1 = driver.FindElement(By.Id("exit_popup_close"));
-
-            if (element1.Displayed)
-            {
-                element1.Click();
-            }
-            else
-            {
-                driver.FindElement(By.CssSelector("#seleniumform > div.text-right.mt-20 > button")).Click();
-            }
-
- 
             IWebElement success = driver.FindElement(By.CssSelector("#__next > div.wrapper > section.mt-50 > div > div > div.w-8\\/12.smtablet\\:w-full.px-15.smtablet\\:mt-20 > div > p"));
-             Assert.AreEqual("Thanks for contacting us, we will get back to you shortly.", success.Text);
-            
+            Assert.AreEqual("Thanks for contacting us, we will get back to you shortly.", success.Text);
+        }
 
+        [TearDown]
+        public void TearDown()
+        {
             driver.Quit();
-
-            
-
-
-
-
         }
 
 

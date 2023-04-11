@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<settings>
+	<proxies>
+		<!-- Add any proxy configurations here -->
+	</proxies>
+
+	<servers>
+
+		<server>
+			<id>gitlab-maven</id>
+			<configuration>
+				<httpHeaders>
+					<property>
+						<name>REPLACE_WITH_NAME</name>
+						<value>REPLACE_WITH_TOKEN</value>
+					</property>
+				</httpHeaders>
+			</configuration>
+		</server>
+
+	</servers>
+
+	<mirrors>
+		<!-- Add any mirror configurations here -->
+	</mirrors>
+
+	<profiles>
+		<profile>
+			<id>default</id>
+			<repositories>
+				<repository>
+					<id>central</id>
+					<url>https://repo.maven.apache.org/maven2</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</repository>
+			</repositories>
+			<pluginRepositories>
+				<pluginRepository>
+					<id>central</id>
+					<url>https://repo.maven.apache.org/maven2</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
+	</profiles>
+
+	<activeProfiles>
+		<activeProfile>default</activeProfile>
+	</activeProfiles>
+
+
+
+
+
+</settings>

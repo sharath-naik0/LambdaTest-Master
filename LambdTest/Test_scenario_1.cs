@@ -1,35 +1,36 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using System;
-using System.IO;
-using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+using OpenQA.Selenium.Firefox;
 
 namespace Test_scenario_1
 {
-    [TestFixture]
-    public class Test_scenario_1
+
+    [TestFixture(typeof(ChromeDriver))]
+    [TestFixture(typeof(FirefoxDriver))]
+
+    public class TestSimpleFormDemo<TWebDriver> where TWebDriver : IWebDriver, new()
     {
         private IWebDriver driver;
 
         [SetUp]
-        public void Setup()
+        public void SetupTest()
         {
-            string path = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-
-            driver = new ChromeDriver(path + @"\drivers\");
-            driver.Manage().Window.Maximize();
+            driver = new TWebDriver();
             driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl("https://www.lambdatest.com/selenium-playground");
+            driver.FindElement(By.LinkText("Simple Form Demo")).Click();
+        }
+
+        [TearDown]
+        public void TeardownTest()
+        {
+            driver.Quit();
         }
 
         [Test]
-        public void TestSimpleFormDemo()
+        public void TestSimpleFormDemoWithDifferentBrowsers()
         {
-
-            driver.FindElement(By.LinkText("Simple Form Demo")).Click();
-
             Assert.IsTrue(driver.Url.Contains("simple-form-demo"));
             string message = "Welcome to LambdaTest";
             driver.FindElement(By.Id("user-message")).SendKeys(message);
@@ -37,15 +38,6 @@ namespace Test_scenario_1
             driver.FindElement(By.Id("showInput")).Click();
 
             Assert.AreEqual(message, driver.FindElement(By.Id("message")).Text);
-        }
-
-
-
-        [TearDown]
-        public void Teardown()
-        {
-
-            driver.Quit();
         }
     }
 }

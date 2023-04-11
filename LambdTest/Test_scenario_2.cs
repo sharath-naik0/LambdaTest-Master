@@ -1,32 +1,30 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System;
-using System.IO;
-using System.Threading;
 
 namespace Test_scenario_2
 {
-    [TestFixture]
-    public class Test_scenario_2
+
+    [TestFixture(typeof(FirefoxDriver))]
+    [TestFixture(typeof(ChromeDriver))]
+    public class TestSliderMoving<TWebDriver> where TWebDriver : IWebDriver, new()
     {
         private IWebDriver driver;
 
         [SetUp]
-        public void SetUp()
+        public void SetupTest()
         {
-            string path = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-
-            driver = new ChromeDriver(path + @"\drivers\");
+            driver = new TWebDriver();
             driver.Manage().Window.Maximize();
-
             driver.Navigate().GoToUrl("https://www.lambdatest.com/selenium-playground");
         }
 
         [TearDown]
-        public void TearDown()
+        public void TeardownTest()
         {
             driver.Quit();
         }
@@ -44,7 +42,6 @@ namespace Test_scenario_2
             int targetValue = 95;
             int distance = ((targetValue - sliderValue) * sliderWidth) / 100;
 
-          
             Actions sliderAction = new Actions(driver);
             sliderAction.ClickAndHold(slider)
                 .MoveByOffset(distance / 25, 0).Pause(TimeSpan.FromMilliseconds(100))
@@ -68,14 +65,10 @@ namespace Test_scenario_2
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             wait.Until(d => slider.GetAttribute("value") == targetValue.ToString());
 
-            Thread.Sleep(5000);
-
-
+            System.Threading.Thread.Sleep(5000);
 
             IWebElement rangeValue = driver.FindElement(By.Id("rangeSuccess"));
             Assert.AreEqual("95", rangeValue.GetAttribute("value"));
-
-
         }
     }
 }
