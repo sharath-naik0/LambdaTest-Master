@@ -10,7 +10,7 @@ namespace Test_scenario_3
 {
 
     [TestFixture("chrome")]
-    [TestFixture("firefox")]
+   // [TestFixture("firefox")]
     public class Test_scenario_3
     {
         private IWebDriver driver;

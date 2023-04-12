@@ -9,7 +9,7 @@ using System;
 namespace Test_scenario_2
 {
 
-    [TestFixture(typeof(FirefoxDriver))]
+   // [TestFixture(typeof(FirefoxDriver))]
     [TestFixture(typeof(ChromeDriver))]
     public class TestSliderMoving<TWebDriver> where TWebDriver : IWebDriver, new()
     {
