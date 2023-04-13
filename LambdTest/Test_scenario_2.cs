@@ -3,31 +3,46 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Collections.Generic;
 
 namespace Test_scenario_2
 {
 
-   // [TestFixture(typeof(FirefoxDriver))]
     [TestFixture(typeof(ChromeDriver))]
-    public class TestSliderMoving<TWebDriver> where TWebDriver : IWebDriver, new()
+    public class TestSimpleFormDemo<TWebDriver> where TWebDriver : IWebDriver, new()
     {
+
         private IWebDriver driver;
 
+
+
         [SetUp]
-        public void SetupTest()
+        public void Setup()
         {
-            driver = new TWebDriver();
+            ChromeOptions capabilities = new ChromeOptions();
+            capabilities.BrowserVersion = "111.0";
+            Dictionary<string, object> ltOptions = new Dictionary<string, object>();
+            ltOptions.Add("username", "levani.gmza.14");
+            ltOptions.Add("accessKey", "GBiMovlPG3PUGB8tAL7FubhS4lPN6zBZDPQtKg8ChSXYy2CQXR");
+            ltOptions.Add("platformName", "Windows 10");
+            ltOptions.Add("project", "Untitled");
+            ltOptions.Add("w3c", true);
+            ltOptions.Add("plugin", "c#-c#");
+            capabilities.AddAdditionalOption("LT:Options", ltOptions);
+
+
+            driver = new RemoteWebDriver(new Uri("https://hub.lambdatest.com/wd/hub"), capabilities.ToCapabilities());
             driver.Manage().Window.Maximize();
+            driver.Navigate().GoToUrl("https://www.lambdatest.com/selenium-playground");
+            driver.FindElement(By.LinkText("Simple Form Demo")).Click();
+        
+
             driver.Navigate().GoToUrl("https://www.lambdatest.com/selenium-playground");
         }
 
-        [TearDown]
-        public void TeardownTest()
-        {
-            driver.Quit();
-        }
 
         [Test]
         public void Slider_moving()
